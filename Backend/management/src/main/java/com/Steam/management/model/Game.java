@@ -35,17 +35,17 @@ public class Game {
     @Column(precision = 10, scale = 2)
     private BigDecimal price;
 
-    @Column(name = "about_game")
+    @Column(name = "about_game", columnDefinition = "TEXT")
     private String aboutGame;
 
 
     @CollectionTable(name = "game_supported_languages", joinColumns = @JoinColumn(name = "game_id"))
     private List<String> supportedLanguages = new ArrayList<>();
 
-    @Column(name = "header_image")
+    @Column(name = "header_image", columnDefinition = "TEXT")
     private String headerImage;
 
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String website;
 
     @Column
@@ -60,7 +60,7 @@ public class Game {
     @Column
     private Integer averagePlaytimeForever;
 
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String developer;
 
     @CollectionTable(name = "game_publishers", joinColumns = @JoinColumn(name = "game_id"))

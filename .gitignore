@@ -1,5 +1,6 @@
 ### Backend (Maven/Java) ###
 target/
+src/main/resources/data/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
@@ -9,6 +10,7 @@ target/
 *.iws
 *.iml
 *.ipr
+*.csv
 
 ### Eclipse ###
 .apt_generated
