@@ -3,6 +3,7 @@ package com.Steam.management.controller;
 import com.Steam.management.dto.CartsDto;
 import com.Steam.management.model.User;
 import com.Steam.management.service.impl.UserService;
+import com.Steam.management.dto.OrdersDto;
 
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
@@ -51,5 +52,7 @@ public class UserController {
 
     @PutMapping("/order/{id}")
     @Operation(summary = "Order oluşturma")
-    public List
+    public List<OrdersDto> createOrder(@PathVariable Long id){
+        return userService.createOrder(id);
+    }
 }

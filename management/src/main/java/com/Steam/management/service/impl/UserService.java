@@ -1,17 +1,14 @@
 package com.Steam.management.service.impl;
 
-import com.Steam.management.dto.CartsDto;
-import com.Steam.management.model.Carts;
-import com.Steam.management.model.Game;
-import com.Steam.management.model.User;
-import com.Steam.management.repository.CartsRepository;
-import com.Steam.management.repository.GameRepository;
-import com.Steam.management.repository.UserRepository;
+import com.Steam.management.dto.*;
+import com.Steam.management.model.*;
+import com.Steam.management.repository.*;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.math.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,12 +21,14 @@ public class UserService {
     private final GameRepository gameRepository;
     private final ModelMapper modelMapper;
     private final CartsRepository cartsRepository;
+    private final OrdersRepository ordersRepository;
 
-    public UserService(UserRepository userRepository, EmailService emailService, GameRepository gameRepository, ModelMapper modelMapper, CartsRepository cartsRepository) {
+    public UserService(UserRepository userRepository, EmailService emailService, GameRepository gameRepository, ModelMapper modelMapper, CartsRepository cartsRepository, OrdersRepository ordersRepository) {
         this.userRepository = userRepository;
         this.gameRepository = gameRepository;
         this.modelMapper = modelMapper;
         this.cartsRepository = cartsRepository;
+        this.ordersRepository = ordersRepository;
     }
 
     public List<User> findAll() {
@@ -106,4 +105,25 @@ public class UserService {
 
 
     }
+
+    public List<OrdersDto> createOrder(Long cart_id){
+        // User user = findCurrent();
+        User user = userRepository.findById(1L).get();
+        Optional<Carts> optional = cartsRepository.findById(cart_id);
+        if (optional.isEmpty()){
+            return null;
+        }
+        Carts cart = optional.get();
+
+        Orders order = new Orders();
+        BigDecimal totalAmount = cart.getTotalAmount();
+        order.setTotalAmount(totalAmount);
+        order.setOrderStatus(OrderStatus.PENDING);
+        order.setOrderDate(LocalDateTime.now());
+
+        List<Orders> ordersList = ordersRepository.findAll();
+        List<OrdersDto>  cartsDto = ordersList.stream().map(orders1 -> modelMapper.map(orders1, OrdersDto.class)).toList();
+        return cartsDto;
+    }
 }
+
