@@ -1,9 +1,8 @@
 package com.Steam.management.controller;
 
-import com.Steam.management.dto.CartsDto;
+import com.Steam.management.dto.*;
 import com.Steam.management.model.User;
 import com.Steam.management.service.impl.UserService;
-import com.Steam.management.dto.OrdersDto;
 
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
@@ -54,5 +53,21 @@ public class UserController {
     @Operation(summary = "Order oluşturma")
     public List<OrdersDto> createOrder(@PathVariable Long id){
         return userService.createOrder(id);
+    }
+
+
+    @GetMapping("/library/list")
+    @Operation(summary = "List the library")
+    public List<GameDto> listLibrary(){ return userService.getLibrary();}
+
+
+    @PutMapping("/favorite/{id}")
+    public String addFavorite(@PathVariable Long id) {
+        return userService.addToFavorites(id);
+    }
+
+    @GetMapping("/favorite/list")
+    public List<GameDto> getFavorites() {
+        return userService.listFavorites();
     }
 }

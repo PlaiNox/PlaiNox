@@ -22,13 +22,15 @@ public class UserService {
     private final ModelMapper modelMapper;
     private final CartsRepository cartsRepository;
     private final OrdersRepository ordersRepository;
+    private final FavoritesRepository favoritesRepository;
 
-    public UserService(UserRepository userRepository, EmailService emailService, GameRepository gameRepository, ModelMapper modelMapper, CartsRepository cartsRepository, OrdersRepository ordersRepository) {
+    public UserService(UserRepository userRepository, EmailService emailService, GameRepository gameRepository, ModelMapper modelMapper, CartsRepository cartsRepository, OrdersRepository ordersRepository, FavoritesRepository favoritesRepository) {
         this.userRepository = userRepository;
         this.gameRepository = gameRepository;
         this.modelMapper = modelMapper;
         this.cartsRepository = cartsRepository;
         this.ordersRepository = ordersRepository;
+        this.favoritesRepository = favoritesRepository;
     }
 
     public List<User> findAll() {
@@ -124,6 +126,41 @@ public class UserService {
         List<Orders> ordersList = ordersRepository.findAll();
         List<OrdersDto>  cartsDto = ordersList.stream().map(orders1 -> modelMapper.map(orders1, OrdersDto.class)).toList();
         return cartsDto;
+    }
+
+
+    public List<GameDto> getLibrary(){
+        User user = findCurrent();
+        List<Game> games = user.getGames();
+        List<GameDto> gameDtos = games.stream().map(game -> modelMapper.map(game, GameDto.class)).toList();
+        return gameDtos;
+    }
+
+    public String addToFavorites(Long id){
+        User user = findCurrent();
+        Optional<Game> optional = gameRepository.findById(id);
+        if (optional.isEmpty()){
+            return "Game not found";
+        }
+        Game game = optional.get();
+        List<Game> games = user.getGames();
+        if (games.contains(game)){
+            return "Game already in favorites";
+        }
+        Favorites favs = new Favorites();
+        favs.setUser(user);
+        favs.setGame(game);
+        favs.setAddedAt(LocalDateTime.now());
+        favoritesRepository.save(favs);
+
+        return "Added to favorites";
+    }
+
+    public List<GameDto> listFavorites(){
+        User user = findCurrent();
+        List<Game> games = user.getGames();
+        List<GameDto> gameDtos = games.stream().map(game -> modelMapper.map(game, GameDto.class)).toList();
+        return gameDtos;
     }
 }
 

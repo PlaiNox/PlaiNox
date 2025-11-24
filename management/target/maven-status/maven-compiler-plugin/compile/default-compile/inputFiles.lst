@@ -25,6 +25,7 @@
 /Users/iremkeser/Downloads/372Backend/PlaiNox/management/src/main/java/com/Steam/management/model/Orders.java
 /Users/iremkeser/Downloads/372Backend/PlaiNox/management/src/main/java/com/Steam/management/model/User.java
 /Users/iremkeser/Downloads/372Backend/PlaiNox/management/src/main/java/com/Steam/management/repository/CartsRepository.java
+/Users/iremkeser/Downloads/372Backend/PlaiNox/management/src/main/java/com/Steam/management/repository/FavoritesRepository.java
 /Users/iremkeser/Downloads/372Backend/PlaiNox/management/src/main/java/com/Steam/management/repository/GameRepository.java
 /Users/iremkeser/Downloads/372Backend/PlaiNox/management/src/main/java/com/Steam/management/repository/OrdersRepository.java
 /Users/iremkeser/Downloads/372Backend/PlaiNox/management/src/main/java/com/Steam/management/repository/UserRepository.java

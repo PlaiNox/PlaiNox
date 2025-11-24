@@ -1,2 +1,3 @@
 com/Steam/management/dto/OrdersDto.class
 com/Steam/management/repository/OrdersRepository.class
+com/Steam/management/repository/FavoritesRepository.class
