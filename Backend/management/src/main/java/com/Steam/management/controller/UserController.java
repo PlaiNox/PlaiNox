@@ -62,6 +62,7 @@ public class UserController {
 
 
     @PutMapping("/favorite/{id}")
+    @Operation(summary = "Add to favorites")
     public String addFavorite(@PathVariable Long id) {
         return userService.addToFavorites(id);
     }
