@@ -11,7 +11,7 @@ function RouterConfig(){
         <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/games/:appId" element={<GameDetail />} /> {/* yeni route */}
+            <Route path="/games/:appId" element={<GameDetail />} />
         </Routes>
     )
 }

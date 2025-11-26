@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getGameDetails, clearSelectedGame } from '../redux/slices/gameSlice.jsx';
 import { CircularProgress, Button } from '@mui/material';
+import { ShoppingCart, Favorite, FavoriteBorder } from '@mui/icons-material';
 import '../css/GameDetail.css';
 
 const formatPrice = (p) => {
@@ -19,10 +20,27 @@ function GameDetail() {
   const navigate = useNavigate();
   const { selectedGame, loading, error } = useSelector(s => s.game);
 
+  // Favori durumu için local state
+  const [isFavorite, setIsFavorite] = useState(false);
+
   useEffect(() => {
     if (appId) dispatch(getGameDetails(appId));
     return () => dispatch(clearSelectedGame());
   }, [dispatch, appId]);
+
+  // Sepete ekleme fonksiyonu
+  const handleAddToCart = () => {
+    // TODO: Redux'a sepet ekleme action'ını dispatch edin
+    console.log('Sepete eklendi:', selectedGame);
+    alert(`${selectedGame.name} sepete eklendi!`);
+  };
+
+  // Favorilere ekleme/çıkarma fonksiyonu
+  const handleToggleFavorite = () => {
+    setIsFavorite(! isFavorite);
+    // TODO: Redux'a favori ekleme/çıkarma action'ını dispatch edin
+    console.log('Favori durumu değişti:', ! isFavorite);
+  };
 
   if (loading) return <div style={{ padding: 20 }}><CircularProgress /></div>;
   if (error) return <div style={{ padding: 20 }}>Hata: {String(error)}</div>;
@@ -58,13 +76,34 @@ function GameDetail() {
           <h1 className="game-detail__title">{name}</h1>
           <div className="game-detail__price">{formatPrice(price)}</div>
 
+          {/* Sepete Ekle ve Favorilere Ekle Butonları */}
+          <div className="game-detail__buttons">
+            <Button
+              variant="contained"
+              color="success"
+              startIcon={<ShoppingCart />}
+              onClick={handleAddToCart}
+              className="game-detail__cart-btn"
+            >
+              Sepete Ekle
+            </Button>
+            <Button
+              variant="outlined"
+              color="error"
+              onClick={handleToggleFavorite}
+              className="game-detail__favorite-btn"
+            >
+              {isFavorite ? <Favorite /> : <FavoriteBorder />}
+            </Button>
+          </div>
+
           <div className="game-detail__info">
             <div><b>Geliştirici:</b> {developer || '-'}</div>
             <div><b>Yayıncı(lar):</b> {publishers.length ? publishers.join(', ') : '-'}</div>
             <div><b>Çıkış:</b> {releaseDate || '-'}</div>
             <div><b>Tahmini sahipler:</b> {estimatedOwners || '-'}</div>
             <div><b>Gerekli yaş:</b> {requiredAge ?? '-'}</div>
-            <div style={{ marginTop: 8 }}><b>Türler:</b> {genres.length ? genres.join(', ') : '-'}</div>
+            <div style={{ marginTop: 8 }}><b>Türler:</b> {genres. length ? genres.join(', ') : '-'}</div>
           </div>
 
           <div className="game-detail__chips" aria-hidden>
