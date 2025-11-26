@@ -2,7 +2,8 @@ import React from "react";
 
 import {Routes, Route} from "react-router-dom";
 import Home from "../pages/Home.jsx";
-import Login from "../pages/LoginPage.jsx"
+import Login from "../pages/LoginPage.jsx";
+import GameDetail from  "../pages/GameDetail.jsx";
 function RouterConfig(){
 
 
@@ -10,6 +11,7 @@ function RouterConfig(){
         <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/games/:appId" element={<GameDetail />} /> {/* yeni route */}
         </Routes>
     )
 }
