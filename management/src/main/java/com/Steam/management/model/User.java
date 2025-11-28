@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -16,7 +17,7 @@ import java.util.List;
 @Setter
 public class User implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(unique = true, nullable = false)
     private String username;
@@ -30,6 +31,17 @@ public class User implements UserDetails {
     @Column(name = "verification_expiration")
     private LocalDateTime verificationCodeExpiresAt;
     private boolean enabled;
+
+    @ManyToMany
+    @JoinTable(
+            name = "game_user",
+            //İlişkinin tanımlandığı tarafın tablodaki ismini belirledim
+            joinColumns = @JoinColumn(name = "user_id"),
+            //İlişkinin karşı tarartaki için
+            inverseJoinColumns = @JoinColumn(name = "game_id")
+
+    )
+    private List<Game> games = new ArrayList<>();
 
     //constructor for creating an unverified user
     public User(String username, String email, String password) {

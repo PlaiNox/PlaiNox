@@ -51,7 +51,6 @@ public class GameDto {
 
     private List<Genres> genres ;
 
-    private List<UserDto> users;
 
 
 

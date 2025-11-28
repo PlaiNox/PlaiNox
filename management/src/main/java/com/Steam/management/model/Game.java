@@ -35,18 +35,24 @@ public class Game {
     @Column(precision = 10, scale = 2)
     private BigDecimal price;
 
-    @Column(name = "about_game")
+    @Column(name = "about_game", columnDefinition = "TEXT")
     private String aboutGame;
 
 
     @CollectionTable(name = "game_supported_languages", joinColumns = @JoinColumn(name = "game_id"))
     private List<String> supportedLanguages = new ArrayList<>();
 
-    @Column(name = "header_image")
+    @Column(name = "header_image", columnDefinition = "TEXT")
     private String headerImage;
 
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String website;
+
+    @Column
+    private Integer Positive;
+
+    @Column
+    private Integer Negative;
 
     @Column
     private Integer averagePlaytimeTwoWeeks;
@@ -54,7 +60,7 @@ public class Game {
     @Column
     private Integer averagePlaytimeForever;
 
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String developer;
 
     @CollectionTable(name = "game_publishers", joinColumns = @JoinColumn(name = "game_id"))
@@ -69,13 +75,8 @@ public class Game {
     @Enumerated(EnumType.STRING)
     private List<Genres> genres = new ArrayList<>();
 
-    @ManyToMany
-    @JoinTable(
-            name = "game_users",
-            joinColumns = @JoinColumn(name = "game_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"),
-            uniqueConstraints = @UniqueConstraint(columnNames = {"game_id", "user_id"})
-    )
+    //Inverse side game ilişkiyi yansıtıyor yönetme işlemlerini user üzerinden yapacağız
+    @ManyToMany(mappedBy = "games")
     @ToString.Exclude //Döngüye girmesin diye
     private List<User> users = new ArrayList<>();
 
