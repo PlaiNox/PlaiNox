@@ -1,0 +1,221 @@
+/* Daha temiz, okunaklı ve responsive bir detay sayfası için stil */
+.game-detail {
+  max-width: 1100px;
+  margin: 28px auto;
+  padding: 28px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(11, 22, 39, 0.06);
+  color: #111;
+  font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Üst eylemler (geri, site linkleri) */
+.game-detail__actions {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+/* Header: sol kapak, sağ meta */
+.game-detail__header {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+/* Kapak görseli */
+.game-detail__cover {
+  width: 420px;
+  height: 240px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  flex-shrink: 0;
+}
+
+/* Meta bilgi alanı (sağ taraf) */
+.game-detail__meta {
+  flex: 1;
+  min-width: 260px;
+}
+
+. game-detail__title {
+  margin: 0 0 8px;
+  font-size: 32px;
+  line-height: 1.05;
+  font-weight: 700;
+}
+
+.game-detail__price {
+  margin: 6px 0 16px;
+  color: #111;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+/* Sepete Ekle ve Favori Butonları */
+.game-detail__buttons {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.game-detail__cart-btn {
+  flex: 1;
+  min-width: 180px;
+  font-weight: 600 !important;
+  padding: 10px 24px ! important;
+  font-size: 15px !important;
+  text-transform: none !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 12px rgba(46, 125, 50, 0.2) !important;
+  transition: all 0.3s ease ! important;
+}
+
+.game-detail__cart-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(46, 125, 50, 0.3) !important;
+}
+
+.game-detail__favorite-btn {
+  min-width: 52px !important;
+  width: 52px;
+  height: 42px;
+  padding: 8px ! important;
+  border-radius: 8px !important;
+  border: 2px solid #e91e63 !important;
+  transition: all 0.3s ease !important;
+}
+
+.game-detail__favorite-btn:hover {
+  background-color: rgba(233, 30, 99, 0.08) !important;
+  transform: scale(1.05);
+}
+
+. game-detail__favorite-btn . MuiSvgIcon-root {
+  font-size: 24px;
+}
+
+/* Bilgi listesi (developer, publisher vb) */
+.game-detail__info {
+  font-size: 14px;
+  line-height: 1. 4;
+  color: #222;
+  margin-bottom: 12px;
+}
+
+. game-detail__info b {
+  display: inline-block;
+  min-width: 110px;
+  font-weight: 700;
+}
+
+/* Türler ve diller gibi chip alanları */
+.game-detail__chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.game-detail__chip {
+  background: #f1f1f1;
+  color: #111;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  box-shadow: none;
+  transition: transform . 12s ease, background . 12s;
+  cursor: default;
+}
+
+. game-detail__chip:hover {
+  transform: translateY(-2px);
+  background: #e8e8e8;
+}
+
+/* Ana içerik: açıklama ve sağ aside */
+.game-detail__content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 28px;
+  margin-top: 22px;
+}
+
+/* Başlıklar */
+.game-detail h4 {
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+. game-detail__description p {
+  margin: 0 0 10px;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* Oynama süreleri alanı */
+.game-detail__playtime p {
+  margin: 6px 0;
+  font-weight: 600;
+}
+
+/* Sağ sütun stili */
+.game-detail__aside {
+  background: #fafafa;
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid #f0f0f0;
+  font-size: 14px;
+  color: #222;
+}
+
+/* Ekran görüntüleri yatay kaydırma */
+.game-detail__screenshots {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  margin-top: 8px;
+}
+. game-detail__screenshot {
+  height: 110px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .game-detail {
+    padding: 18px;
+  }
+  . game-detail__header {
+    flex-direction: column;
+    gap: 18px;
+  }
+  .game-detail__cover {
+    width: 100%;
+    height: 200px;
+  }
+  .game-detail__content {
+    grid-template-columns: 1fr;
+  }
+  .game-detail__meta { order: 2; }
+
+  .game-detail__buttons {
+    flex-direction: row;
+  }
+
+  .game-detail__cart-btn {
+    flex: 1;
+  }
+
+  .game-detail__favorite-btn {
+    flex: 0;
+  }
+}
