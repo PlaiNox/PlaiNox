@@ -1,46 +1,60 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
-import PageContainer from '../container/PageContainer'
-import '../css/ProfilePage.css' // <--- CSS DOSYASINI BURAYA ÇAĞIRDIK
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
+import PageContainer from "../container/PageContainer";
+import "../css/ProfilePage.css";
+
+import { getCurrentUser } from "../redux/slices/userSlice.jsx";
 
 function ProfilePage() {
-    const [user, setUser] = useState(null);
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    // userSlice içindeki user state’i
+    const user = useSelector((state) => state.user.user);
+
     useEffect(() => {
+        // 1) Token yoksa direkt login sayfasına gönder
         const token = localStorage.getItem("token");
         if (!token) {
             navigate("/login");
             return;
         }
 
-        axios.get("http://localhost:8080/users/me", {
-            headers: { Authorization: `Bearer ${token}` }
-        })
-        .then(response => {
-            setUser(response.data);
-        })
-        .catch(error => {
-            if (error.response?.status === 401) {
-                 localStorage.removeItem("token");
-                 navigate("/login");
-            }
-        });
-    }, []);
+        // 2) Token varsa backend'den /users/me isteğini at
+        dispatch(getCurrentUser())
+            .unwrap()
+            .catch((err) => {
+                // Eğer 401 dönerse token geçersiz demektir → çıkış yap
+                if (err?.response?.status === 401) {
+                    localStorage.removeItem("token");
+                    navigate("/login");
+                } else {
+                    console.error("Kullanıcı bilgisi alınırken hata:", err);
+                }
+            });
+    }, [dispatch, navigate]);
 
     const handleLogout = () => {
         localStorage.removeItem("token");
-        window.location.href = "/login";
-        // Backendde bir logout kodu yazıp eklememiz lazım buraya.
-    }
+        navigate("/login");
+        // İstersen ileride backend'e /logout isteği de ekleyebilirsin
+    };
 
-    if (!user) return <div className="profile-container"><h3>Yükleniyor...</h3></div>;
+    if (!user || !user.username) {
+        return (
+            <PageContainer>
+                <div className="profile-container">
+                    <h3>Yükleniyor...</h3>
+                </div>
+            </PageContainer>
+        );
+    }
 
     return (
         <PageContainer>
             <div className="profile-container">
-
                 <div className="profile-card">
                     {/* Profil Resmi */}
                     <img
@@ -54,7 +68,6 @@ function ProfilePage() {
 
                     {/* Bilgilerin Olduğu Kutu */}
                     <div className="profile-info-box">
-
                         <div className="info-row">
                             <span className="info-label">Kullanıcı Adı:</span>
                             <span className="info-value">{user.username}</span>
@@ -69,17 +82,15 @@ function ProfilePage() {
                             <span className="info-label">Kullanıcı ID:</span>
                             <span className="info-value">#{user.id}</span>
                         </div>
-
                     </div>
 
                     <button className="logout-btn" onClick={handleLogout}>
                         Güvenli Çıkış
                     </button>
                 </div>
-
             </div>
         </PageContainer>
-    )
+    );
 }
 
-export default ProfilePage
+export default ProfilePage;

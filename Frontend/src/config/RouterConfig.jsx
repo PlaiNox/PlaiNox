@@ -5,6 +5,8 @@ import Home from "../pages/Home.jsx";
 import LoginPage from "../pages/LoginPage.jsx";
 import GameDetail from  "../pages/GameDetail.jsx";
 import ProfilePage from "../pages/ProfilePage.jsx";
+import RegisterPage from "../pages/RegisterPage.jsx";
+import VerifyPage from "../pages/VerifyPage.jsx";
 
 function RouterConfig(){
 
@@ -13,6 +15,8 @@ function RouterConfig(){
         <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/verify" element={<VerifyPage />} />
             <Route path="/games/:appId" element={<GameDetail />} />
             <Route path="/profile" element={<ProfilePage />} />
 

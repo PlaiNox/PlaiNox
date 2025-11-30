@@ -9,7 +9,7 @@ function LoginPage(){
                 justifyContent: 'center',
                 alignItems: 'center',
                 height: '100vh',
-                backgroundColor: '#f0f2f5' // İstersen arkaya hafif gri bir renk atalım
+                backgroundColor: '#f0f2f5'
             }}>
                 {/* Login formunu buraya yerleştiriyoruz */}
                 <Login />
