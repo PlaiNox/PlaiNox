@@ -1,22 +1,24 @@
 package com.Steam.management.dto;
 
-import com.Steam.management.model.OrderStatus;
+import com.Steam.management.model.Game;
+import com.Steam.management.model.Orders;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrdersDto {
-
-    private LocalDateTime orderDate;
-    private OrderStatus orderStatus;
-    private BigDecimal totalAmount;
+public class OrderItemsDto {
 
     private Long id;
+
+    private Orders order;
+
+    private Game game;
+
+    private BigDecimal price;
 
 }
