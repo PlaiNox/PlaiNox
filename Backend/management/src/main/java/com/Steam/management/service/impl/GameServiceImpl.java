@@ -6,6 +6,7 @@ import com.Steam.management.repository.FavoritesRepository;
 import com.Steam.management.repository.GameRepository;
 import com.Steam.management.repository.UserRepository;
 import com.Steam.management.service.GameService;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class GameServiceImpl implements GameService {
 
     private final GameRepository gameRepository;

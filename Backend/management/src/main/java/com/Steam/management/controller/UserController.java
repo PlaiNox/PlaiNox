@@ -1,5 +1,8 @@
 package com.Steam.management.controller;
 
+import com.Steam.management.dto.CartsDto;
+import com.Steam.management.dto.FavoritesDto;
+import com.Steam.management.dto.GameDto;
 import com.Steam.management.dto.*;
 import com.Steam.management.model.User;
 import com.Steam.management.service.impl.UserService;
@@ -10,18 +13,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import org.modelmapper.ModelMapper;
-
 import java.util.List;
 
 @RequestMapping("/users")
 @RestController
 public class UserController {
-    private final ModelMapper modelMapper;
     private final UserService userService;
     public UserController(UserService userService) {
         this.userService = userService;
-        this.modelMapper = new ModelMapper();
     }
 
     @GetMapping("/me")

@@ -5,6 +5,7 @@ import com.Steam.management.dto.*;
 import com.Steam.management.model.*;
 import com.Steam.management.repository.*;
 
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,6 +20,7 @@ import java.util.Optional;
 
 //AddToCart metodumu düzenleyeceğim
 @Service
+@Transactional
 public class UserService {
 
     private final UserRepository userRepository;

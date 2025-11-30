@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -33,7 +32,6 @@ public class User implements UserDetails {
     private LocalDateTime verificationCodeExpiresAt;
     private boolean enabled;
 
-    @JsonIgnore // Buraya bunu ekledik çünkü user başka bir tabloda tuutluyor ve o tabloya şu an erişimiz olmadığı için bunu getirirken sıkıntı yaşıoyurz.
     @ManyToMany
     @JoinTable(
             name = "game_user",

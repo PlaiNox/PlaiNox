@@ -1,9 +1,8 @@
 package com.Steam.management.config;
 
-import jakarta.servlet.http.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.*;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -30,13 +29,6 @@ public class SecurityConfiguration {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
 
-
-    private static final String[] SWAGGER_WHITELIST = {
-            "/v3/api-docs/**",
-            "/swagger-ui/**",
-            "/swagger-ui.html"
-    };
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -44,17 +36,11 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/auth/**").permitAll()
-                        // Oyunun GET istekleri için tokena gerek yok.
-                        .requestMatchers(HttpMethod.GET, "/game/**").permitAll()                        .requestMatchers(SWAGGER_WHITELIST).permitAll()
+                        .requestMatchers(HttpMethod.GET, "/game/**").permitAll()
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        .requestMatchers("/users/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                // Eğer token süresi ile ilgili bir hata ise 401 dön.
-                // Bunu forntendde hata kimlik doğrulama hatası mı diye kontorl ederken kullanacağız.
-                .exceptionHandling(e -> e.authenticationEntryPoint(
-                        (request, response, authException) -> {
-                            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage());
-                        }
-                ))
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
@@ -63,8 +49,6 @@ public class SecurityConfiguration {
 
         return http.build();
     }
-
- 
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
@@ -76,8 +60,7 @@ public class SecurityConfiguration {
                 "http://localhost:8080"
         ));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        //configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
-        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
         configuration.setAllowCredentials(true); // Add this if needed
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

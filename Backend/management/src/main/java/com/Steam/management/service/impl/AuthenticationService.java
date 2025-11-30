@@ -37,12 +37,39 @@ public class AuthenticationService {
     }
 
     public User signup(RegisterUserDto input) {
-        User user = new User(input.getUsername(), input.getEmail(), passwordEncoder.encode(input.getPassword()));
+        // 1. Önce bu email ile kayıtlı biri var mı kontrol et
+        Optional<User> existingUser = userRepository.findByEmail(input.getEmail());
+        
+        if (existingUser.isPresent()) {
+            // Eğer kullanıcı varsa ve zaten doğrulanmışsa hata ver
+            if (existingUser.get().isEnabled()) {
+                throw new RuntimeException("Bu e-posta adresi zaten kullanılıyor.");
+        } 
+        // Eğer kullanıcı var ama doğrulanmamışsa, o kullanıcıyı güncelle (yeni kod ata)
+        User user = existingUser.get();
+        user.setUsername(input.getUsername());
+        user.setPassword(passwordEncoder.encode(input.getPassword()));
         user.setVerificationCode(generateVerificationCode());
         user.setVerificationCodeExpiresAt(LocalDateTime.now().plusMinutes(15));
-        user.setEnabled(false);
-        sendVerificationEmail(user);
-        return userRepository.save(user);
+            
+        User savedUser = userRepository.save(user); // Güncelle
+        sendVerificationEmail(savedUser); // Maili şimdi at
+        return savedUser;
+    }
+
+    // 2. Kullanıcı yoksa sıfırdan oluştur
+    User user = new User(input.getUsername(), input.getEmail(), passwordEncoder.encode(input.getPassword()));
+    user.setVerificationCode(generateVerificationCode());
+    user.setVerificationCodeExpiresAt(LocalDateTime.now().plusMinutes(15));
+    user.setEnabled(false);
+
+    // 3. ÖNCE KAYDET (Hata varsa burada patlar, mail gitmez)
+    User savedUser = userRepository.save(user);
+
+    // 4. SONRA MAİL AT
+    sendVerificationEmail(savedUser);
+
+    return savedUser;
     }
 
     public User authenticate(LoginUserDto input) {
