@@ -1,0 +1,98 @@
+/* Sayfanın genel ortalaması */
+.profile-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Yukarıya daha yakın dursun */
+    padding-top: 60px;
+    min-height: 80vh;
+    background-color: #f8f9fa; /* Hafif gri arka plan */
+}
+
+/* Profil Kartı */
+.profile-card {
+    background-color: #ffffff;
+    width: 100%;
+    max-width: 400px; /* Çok geniş olmasın */
+    padding: 40px;
+    border-radius: 15px; /* Köşeleri yuvarlat */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); /* Modern gölge */
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.profile-card:hover {
+    transform: translateY(-5px); /* Üzerine gelince hafif yukarı kalksın */
+}
+
+/* Profil Resmi */
+.profile-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%; /* Tam yuvarlak */
+    object-fit: cover;
+    border: 4px solid #e9ecef; /* Etrafına çember */
+    margin-bottom: 20px;
+}
+
+/* Başlık */
+.profile-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.profile-subtitle {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 30px;
+}
+
+/* Bilgi Kutusu */
+.profile-info-box {
+    text-align: left;
+    background-color: #f1f3f5;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #dee2e6;
+    font-size: 15px;
+}
+
+.info-row:last-child {
+    border-bottom: none; /* Son çizgi olmasın */
+}
+
+.info-label {
+    font-weight: 600;
+    color: #555;
+}
+
+.info-value {
+    color: #333;
+    font-weight: 500;
+}
+
+/* Çıkış Butonu */
+.logout-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #ff4757;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.logout-btn:hover {
+    background-color: #ff6b81; /* Hover rengi */
+}
