@@ -5,7 +5,13 @@ import { CiLight } from "react-icons/ci";
 import { FaRegHeart } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
 import { FaMoon } from "react-icons/fa";
+import { FaUser } from "react-icons/fa";
+import { useNavigate } from 'react-router-dom'
+
+
 function Header(){
+
+    const navigate = useNavigate();
 
 
     const[theme, setTheme] = useState(false);
@@ -28,10 +34,24 @@ function Header(){
         }
         setTheme(!theme);
     }
+
+    const handleProfileClick = () => {
+        const token = localStorage.getItem("token");
+
+        if(!token){
+            // Eğer giriş yapılmamaışsa login sayfasına git.
+            navigate("/login");
+        }else{
+            console.log("Kullanıcı giriş yapmış");
+            navigate("/profile");
+            }
+    }
+
+
     return(
         <div style={{display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
-            <div className='flex-row'>
-                <img className="logo" src="./src/image/steam-seeklogo.png" />
+            <div className='flex-row' onClick={() => navigate("/")} style={{cursor: 'pointer'}}>
+                <img className="logo" src="./src/image/steam-seeklogo.png" alt="logo" />
                 <p className="logo-text">PLAINOX</p>
             </div>
             <div className='flex-row'>
@@ -45,14 +65,10 @@ function Header(){
 
                     <FaHeart className='icon' />
 
+                    <FaUser className='icon' onClick={handleProfileClick} style={{cursor: 'pointer'}} title="Giriş Yap / Profil" />
+
 
                 </div>
-
-
-
-
-
-
             </div>
         </div>
     )

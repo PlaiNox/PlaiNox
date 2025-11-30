@@ -1,7 +1,6 @@
 package com.Steam.management.config;
 
 import com.Steam.management.service.impl.JwtService;
-
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,7 +21,6 @@ import java.io.IOException;
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final HandlerExceptionResolver handlerExceptionResolver;
-
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
 
@@ -36,7 +34,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         this.handlerExceptionResolver = handlerExceptionResolver;
     }
 
-
     @Override
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,
@@ -44,15 +41,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
 
-
-        String servletPath = request.getServletPath();
-
-        // /auth/** endpoint'lerini JWT kontrolünden muaf tut
-        if (servletPath.startsWith("/auth/")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
         final String authHeader = request.getHeader("Authorization");
+
+        // Header yoksa veya Bearer ile başlamıyorsa zincire devam et (Authenticationsız)
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
@@ -79,9 +70,22 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
             }
 
+            // Başarılı ise devam et
             filterChain.doFilter(request, response);
+
+            // JwtAuthenticationFilter.java içindeki catch bloğu:
+
         } catch (Exception exception) {
-            handlerExceptionResolver.resolveException(request, response, null, exception);
-        }
+            // 1. Hatayı konsola kırmızı renkle yazdır ki görelim
+            System.err.println("JWT DOĞRULAMA HATASI: " + exception.getMessage());
+            exception.printStackTrace();
+
+            // 2. Context'i temizle (Security bu isteği 'Anonim' sayacak ve 403 verecek)
+            SecurityContextHolder.clearContext();
+
+            // 3. İsteğin devam etmesine izin ver (Controller'a değil, hata sayfasına gider)
+            filterChain.doFilter(request, response);
+
+    }
     }
 }

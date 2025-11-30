@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ public class User implements UserDetails {
     private LocalDateTime verificationCodeExpiresAt;
     private boolean enabled;
 
+    @JsonIgnore // Buraya bunu ekledik çünkü user başka bir tabloda tuutluyor ve o tabloya şu an erişimiz olmadığı için bunu getirirken sıkıntı yaşıoyurz.
     @ManyToMany
     @JoinTable(
             name = "game_user",
@@ -57,7 +59,18 @@ public class User implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();
     }
+    @Override
+    public String getUsername() {
+        // BURAYI DEĞİŞTİR: username yerine email döndürsün.
+        // Böylece Token içine otomatik olarak email yazılacak.
+        return email;
+    }
 
+    // Eğer ekranda göstermek için "gg" olan isme ihtiyacın varsa
+    // kendine özel başka bir metot ekleyebilirsin:
+    public String getRealUsername() {
+        return username;
+    }
 
     @Override
     public boolean isAccountNonExpired() {
