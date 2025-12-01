@@ -35,7 +35,8 @@ public class Game {
     @Column(precision = 10, scale = 2)
     private BigDecimal price;
 
-    @Column(name = "about_game")
+    @Lob
+    @Column(name = "about_game", columnDefinition = "TEXT")
     private String aboutGame;
 
 

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -32,5 +33,7 @@ public class Carts {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "game_id",nullable = false)
     private Game game;
+
+    private BigDecimal totalAmount = BigDecimal.ZERO;
 
 }

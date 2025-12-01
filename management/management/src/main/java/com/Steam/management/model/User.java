@@ -57,7 +57,18 @@ public class User implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();
     }
+    @Override
+    public String getUsername() {
+        // BURAYI DEĞİŞTİR: username yerine email döndürsün.
+        // Böylece Token içine otomatik olarak email yazılacak.
+        return email;
+    }
 
+    // Eğer ekranda göstermek için "gg" olan isme ihtiyacın varsa
+    // kendine özel başka bir metot ekleyebilirsin:
+    public String getRealUsername() {
+        return username;
+    }
 
     @Override
     public boolean isAccountNonExpired() {

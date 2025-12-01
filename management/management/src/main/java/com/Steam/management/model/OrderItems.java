@@ -14,11 +14,9 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class OrderItems {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
 
     // Bir Order içinde birçok OrderItem olabilir
     @ManyToOne
@@ -32,10 +30,5 @@ public class OrderItems {
 
     @Column(precision = 10, scale = 2, nullable = false)
     private BigDecimal price;
-
-    @Column(nullable = false)
-    private int quantity;
-
-
 
 }

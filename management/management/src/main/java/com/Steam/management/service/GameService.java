@@ -13,4 +13,8 @@ public interface GameService {
     public GameDto findByName(String name);
 
     public void delete(Long id);
+
+    public List<GameDto> mostFavoritedGames();
+    public List<GameDto> mostNFavoritedGame(int count);
+    public List<GameDto> mostOrderedList();
 }

@@ -45,4 +45,21 @@ public class GameController {
         return gameService.findByName(name);
     }
 
+    @GetMapping(path = "/favorites")
+    @Operation(summary = "Favorited Games list")
+    public List<GameDto> mostFavoritedGames(){
+        return gameService.mostFavoritedGames();
+    }
+    @GetMapping(path = "/favorites/{count}")
+    @Operation(summary = "Favorited N Games list")
+    public List<GameDto> mostNFavoritedGames(@PathVariable int count){
+        return gameService.mostNFavoritedGame(count);
+    }
+
+    @GetMapping(path = "/ordered")
+    @Operation(summary = "Most ordered game list")
+    public List<GameDto> mostOrderedGames(){
+        return gameService.mostOrderedList();
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.Steam.management.service.impl;
 
+import com.Steam.management.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -17,6 +18,7 @@ import java.util.function.Function;
 
 @Service
 public class JwtService {
+
     @Value("${security.jwt.secret-key}")
     private String secretKey;
 
@@ -25,6 +27,22 @@ public class JwtService {
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
+    }
+
+    // YENİ: UserId çıkarma metodu
+    public String extractUserId(String token) {
+        return extractClaim(token, claims -> {
+            Object userId = claims.get("userId");
+            return userId != null ? userId.toString() : null;
+        });
+    }
+
+    // YENİ: Role çıkarma metodu
+    public String extractRole(String token) {
+        return extractClaim(token, claims -> {
+            Object role = claims.get("role");
+            return role != null ? role.toString() : "USER";
+        });
     }
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
@@ -40,6 +58,14 @@ public class JwtService {
         return buildToken(extraClaims, userDetails, jwtExpiration);
     }
 
+    // OVERLOAD: userId ve role ile token oluşturma
+    public String generateToken(UserDetails userDetails, Long userId, String role) {
+        Map<String, Object> extraClaims = new HashMap<>();
+        extraClaims.put("userId", userId.toString());
+        extraClaims.put("role", role != null ? role : "USER");
+        return buildToken(extraClaims, userDetails, jwtExpiration);
+    }
+
     public long getExpirationTime() {
         return jwtExpiration;
     }
@@ -52,13 +78,12 @@ public class JwtService {
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
-                .setSubject(userDetails.getUsername())
+                .setSubject(userDetails.getUsername()) // Artık burası email (gg@gmail.com) gelecek
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
-
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
