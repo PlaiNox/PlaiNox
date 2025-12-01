@@ -24,7 +24,7 @@ export const getOrderedGame = createAsyncThunk("getOrderedGame", async ()=>{
     return response.data;
 })
 export const getFavoritesGame= createAsyncThunk("getFavoritesGame", async ()=>{
-    const response = await axios.get(`${BASE_URL}}/favorites`);
+    const response = await axios.get(`${BASE_URL}/favorites`);
     return response.data;
 })
 export const gameSlice = createSlice({

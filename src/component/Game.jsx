@@ -16,13 +16,13 @@ function Game({game}){
         <div className='card'>
 
             <img className='image' src={headerImage} alt="" />
-            <div>
+            <div style={{marginBottom:"30px"}}>
                 <p style={{textAlign:'center',height:'30px'}}>{name}</p>
                 <h3 style={{textAlign:'center'}}>{price}₺</h3>
             </div>
 
             <div className='flex-row'>
-                <Button sx={{backgroundColor:"black"}} variant="contained" size="small" onClick={goToDetails}>Detayına git</Button>
+                <Button sx={{backgroundColor:"black", marginTop: "-50px"}} variant="contained" size="small" onClick={goToDetails}>Detayına git</Button>
             </div>
 
 

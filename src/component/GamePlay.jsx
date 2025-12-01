@@ -30,7 +30,7 @@ function GamePlay({ game }) {
 
             <div className='flex-row' style={{marginTop:"35px"}}>
                 <Button
-                    sx={{ backgroundColor: "black" }}
+                    sx={{ backgroundColor: "black" , marginTop:"-60px"}}
                     variant="contained"
                     size="small"
                     onClick={handlePlayClick}
