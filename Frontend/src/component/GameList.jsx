@@ -2,24 +2,30 @@ import React, {useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {getAllGame} from "../redux/slices/gameSlice.jsx";
 import Game from "./Game.jsx";
+
 function GameList(){
 
     const dispatch = useDispatch();
-    const {games} = useSelector((store) => store.game);
-    console.log(games)
-    useEffect(() => {
+    // Hem oyunları hem de arama kelimesini çekiyoruz
+    const { games, searchQuery } = useSelector((store) => store.game);
 
+    useEffect(() => {
         dispatch(getAllGame())
     }, []);
+
+    
+    const filteredGames = games.filter(game => 
+        game.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
     return(
-        <div className='flex-row' style={{flexWrap:'wrap',marginTop:'25px'}}>
+        <div className='flex-row' style={{flexWrap:'wrap', marginTop:'25px'}}>
             {
-
-                games && games.map((game)=>(
-
-                    <Game  key = {game.appId} game = {game}/>
+                filteredGames && filteredGames.map((game)=>(
+                    <Game key={game.appId} game={game}/>
                 ))
             }
+            {filteredGames.length === 0 && <p style={{width:'100%', textAlign:'center'}}>Aradığınız oyun bulunamadı.</p>}
         </div>
     )
 }

@@ -1,75 +1,78 @@
 import React, {useState} from 'react'
 import '../css/Header.css'
-import {FaShoppingBasket, FaUser} from "react-icons/fa";
+import { FaShoppingBasket } from "react-icons/fa";
 import { CiLight } from "react-icons/ci";
-import { FaRegHeart } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
 import { FaMoon } from "react-icons/fa";
+import { FaUser } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'; 
+import { setSearchQuery } from '../redux/slices/gameSlice';
+import logo from '../image/steam-seeklogo.png';
+import { FaBook } from "react-icons/fa";
 
 function Header(){
 
-        const navigate = useNavigate();
-        const[theme, setTheme] = useState(false);
-        const changeTheme = () => {
-            const root = document.getElementById("root");
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const[theme, setTheme] = useState(false);
 
-            const body = document.body;
-            if(theme){
-                root.style.backgroundColor="black";
-                root.style.color = "#fff";
-                body.style.backgroundColor = "black";
-                body.style.color = "#fff";
-            }
-            else{
-                root.style.backgroundColor = "#fff";
-                root.style.color= "black";
-                body.style.backgroundColor = "#fff";
-                body.style.color = "black";
-            }
-            setTheme(!theme);
+    const changeTheme = () => {
+        const root = document.getElementById("root");
+        const body = document.body;
+        if(theme){
+            root.style.backgroundColor="black";
+            root.style.color = "#fff";
+            body.style.backgroundColor = "black";
+            body.style.color = "#fff";
+        } else {
+            root.style.backgroundColor = "#fff";
+            root.style.color= "black";
+            body.style.backgroundColor = "#fff";
+            body.style.color = "black";
+        }
+        setTheme(!theme);
     }
+
     const handleProfileClick = () => {
         const token = localStorage.getItem("token");
-
         if(!token){
-            // Eğer giriş yapılmamaışsa login sayfasına git.
             navigate("/login");
         }else{
-            console.log("Kullanıcı giriş yapmış");
             navigate("/profile");
         }
     }
+
+    const handleSearch = (e) => {
+        dispatch(setSearchQuery(e.target.value));
+    }
+
     return(
         <div style={{display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
-            <div className='flex-row'>
-                <img className="logo" src="../image/steam-seeklogo.png" />
+            {/* Logo Alanı */}
+            <div className='flex-row' onClick={() => navigate("/")} style={{cursor: 'pointer'}}>
+                {/* SRC kısmını güncelledik */}
+                <img className="logo" src={logo} alt="logo" />
                 <p className="logo-text">PLAINOX</p>
             </div>
+
+            {/* İkonlar Alanı */}
             <div className='flex-row'>
-                <input className='search-input' type='text' placeholder='Bir şeyler ara'/>
+                <input className='search-input' type='text' placeholder='Bir şeyler ara' onChange={handleSearch}/>
                 <div>
-
                     {theme ? <FaMoon className='icon' onClick={changeTheme}/>  : <CiLight className='icon' onClick={changeTheme}/> }
+                    
+                    <FaShoppingBasket className='icon' onClick={() => navigate("/cart")} title="Sepetim"/>
+                    
+                    <FaHeart className='icon' onClick={() => navigate("/favorites")} title="Favorilerim"/>
 
-                    <FaShoppingBasket className='icon'/>
-                    {/*<FaRegHeart className='icon' />*/}
+                    <FaBook className='icon' onClick={() => navigate("/library")} title="Kütüphanem" />
 
-                    <FaHeart className='icon' />
-                    <FaUser className='icon' onClick={handleProfileClick} style={{cursor: 'pointer'}} title="Giriş Yap / Profil" />
-
-
+                    <FaUser className='icon' onClick={handleProfileClick} style={{cursor: 'pointer'}} title="Profil" />
                 </div>
-
-
-
-
-
-
             </div>
         </div>
     )
-
 }
 
 export default Header

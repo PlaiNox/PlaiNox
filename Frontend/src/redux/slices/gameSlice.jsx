@@ -36,7 +36,6 @@ import axios from "axios";
 
 const BASE_URL = "http://localhost:8080/game";
 
-// getAllGame (mevcut)
 export const getAllGame = createAsyncThunk("game/getAllGame", async (_, { rejectWithValue })=>{
   try{
     const response = await axios.get(`${BASE_URL}/list`);
@@ -46,11 +45,9 @@ export const getAllGame = createAsyncThunk("game/getAllGame", async (_, { reject
   }
 })
 
-// getGameDetails
 export const getGameDetails = createAsyncThunk("game/getGameDetails", async (appId, { rejectWithValue })=>{
   try{
     const response = await axios.get(`${BASE_URL}/list/${appId}`);
-    //console.log("API’den gelen data:", response.data);
     return response.data;
   }catch(err){
     return rejectWithValue(err.response?.data || err.message);
@@ -61,7 +58,8 @@ const initialState = {
     games: [],
     selectedGame: null,
     loading: false,
-    error: null
+    error: null,
+    searchQuery: ""
 }
 
 const gameSlice = createSlice({
@@ -71,6 +69,9 @@ const gameSlice = createSlice({
       clearSelectedGame(state){
         state.selectedGame = null;
         state.error = null;
+      },
+      setSearchQuery(state, action) {
+          state.searchQuery = action.payload;
       }
     },
     extraReducers : (builder)=>{
@@ -85,5 +86,5 @@ const gameSlice = createSlice({
     }
 })
 
-export const { clearSelectedGame } = gameSlice.actions
+export const { clearSelectedGame, setSearchQuery } = gameSlice.actions 
 export default gameSlice.reducer

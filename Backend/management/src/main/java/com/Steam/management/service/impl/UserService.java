@@ -270,30 +270,32 @@ public class UserService {
         return gameDtos;
     }
 
-    public List<FavoritesDto> addToFavorites(Long id){
+    public List<FavoritesDto> addToFavorites(Long id) {
         User user = findCurrent();
-        //User user = userRepository.findById(3L).get();
         Optional<Game> optional = gameRepository.findById(id);
-        if (optional.isEmpty()){
-            return null;
+        
+        if (optional.isEmpty()) {
+            return listFavorites();
         }
+        
         Game game = optional.get();
         List<Favorites> favoritesList = favoritesRepository.findByUserId(user.getId());
-        List<FavoritesDto> favoritesDtoList = new ArrayList<>(favoritesList.stream().map(favorites1 -> modelMapper.map(favorites1, FavoritesDto.class)).toList());
-        for (Favorites favorites : favoritesList){
-            if (favorites.getGame().getAppId() == game.getAppId()){
-                return  favoritesDtoList;
-            }
+        
+        Optional<Favorites> existingFav = favoritesList.stream()
+            .filter(f -> f.getGame().getAppId().equals(game.getAppId()))
+            .findFirst();
+
+        if (existingFav.isPresent()) {
+            favoritesRepository.delete(existingFav.get());
+        } else {
+            Favorites favs = new Favorites();
+            favs.setUser(user);
+            favs.setGame(game);
+            favs.setAddedAt(LocalDateTime.now());
+            favoritesRepository.save(favs);
         }
 
-        Favorites favs = new Favorites();
-        favs.setUser(user);
-        favs.setGame(game);
-        favs.setAddedAt(LocalDateTime.now());
-        favoritesRepository.save(favs);
-        FavoritesDto favoritesDto = modelMapper.map(favs, FavoritesDto.class);
-        favoritesDtoList.add(favoritesDto);
-        return favoritesDtoList;
+        return listFavorites();
     }
 
     public List<FavoritesDto> listFavorites(){
