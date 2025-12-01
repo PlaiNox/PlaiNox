@@ -34,6 +34,9 @@ export const gameSlice = createSlice({
         clearSelectedGame(state){
             state.selectedGame = null;
             state.error = null;
+        },
+        setSearchQuery(state, action) {
+            state.searchQuery = action.payload;
         }
 
     },
@@ -56,7 +59,7 @@ export const gameSlice = createSlice({
     }
 })
 
-export const { clearSelectedGame} = gameSlice.actions
+export const { clearSelectedGame,setSearchQuery} = gameSlice.actions
 
 export default gameSlice.reducer
 
