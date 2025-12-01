@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { verify } from '../redux/slices/authenticationSlice'
+import { Paper, Typography, TextField, Button, Alert, Box } from '@mui/material'
 
 function Verify() {
     const [email, setEmail] = useState("");
@@ -14,66 +15,89 @@ function Verify() {
     const handleVerify = async (e) => {
         e.preventDefault();
         setError("");
-
         try {
-
-            await dispatch(
-                verify({
-                    email: email,
-                    verificationCode: code
-                })
-            ).unwrap();
-            // başarılıysa direkt devam eder, hatada throw eder
-
+            await dispatch(verify({ email, verificationCode: code })).unwrap();
             alert("Hesabınız başarıyla doğrulandı! Şimdi giriş yapabilirsiniz.");
             navigate("/login");
-
         } catch (err) {
             console.error("Doğrulama hatası:", err);
+            setError("Doğrulama başarısız. Kod yanlış veya süresi dolmuş olabilir.");
+        }
+    };
 
-            const errorMessage =
-                err?.response?.data?.message ||
-                err?.message ||
-                "Doğrulama başarısız. Kod yanlış veya süresi dolmuş olabilir.";
-
-            setError(errorMessage);
+    // Stiller Login.jsx ile uyumlu
+    const inputStyle = {
+        "& .MuiInputBase-input": { color: "white" },
+        "& .MuiInputLabel-root": { color: "#94a3b8" },
+        "& .MuiInputLabel-root.Mui-focused": { color: "#60a5fa" },
+        "& .MuiOutlinedInput-root": {
+            "& fieldset": { borderColor: "rgba(255,255,255,0.3)" },
+            "&:hover fieldset": { borderColor: "rgba(255,255,255,0.5)" },
+            "&.Mui-focused fieldset": { borderColor: "#60a5fa" },
         }
     };
 
     return (
-        <div className="login-container">
-            <h3>Hesap Doğrulama</h3>
-            <p style={{fontSize:'14px', marginBottom:'20px', color:'#555'}}>
+        <Paper
+            elevation={4}
+            sx={{
+                padding: 4,
+                width: 380,
+                borderRadius: 4,
+                background: "rgba(30, 41, 59, 0.7)",
+                backdropFilter: "blur(12px)",
+                border: "1px solid rgba(255, 255, 255, 0.1)",
+                color: "white",
+                textAlign: 'center'
+            }}
+        >
+            <Typography variant="h5" mb={1} fontWeight="bold">Hesap Doğrulama</Typography>
+            <Typography variant="body2" mb={3} sx={{ color: '#cbd5e1' }}>
                 Lütfen e-postanıza gelen doğrulama kodunu giriniz.
-            </p>
+            </Typography>
+
             <form onSubmit={handleVerify}>
-                <div>
-                    <input
-                        type="email"
-                        placeholder="Email Adresiniz"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
-                </div>
-                <br/>
-                <div>
-                    <input
-                        type="text"
-                        placeholder="Doğrulama Kodu"
-                        value={code}
-                        onChange={(e) => setCode(e.target.value)}
-                        required
-                    />
-                </div>
-                <br/>
+                <TextField
+                    fullWidth
+                    label="Email Adresiniz"
+                    type="email"
+                    margin="normal"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    sx={inputStyle}
+                />
 
-                {error && <p style={{color:'red'}}>{error}</p>}
+                <TextField
+                    fullWidth
+                    label="Doğrulama Kodu"
+                    type="text"
+                    margin="normal"
+                    value={code}
+                    onChange={(e) => setCode(e.target.value)}
+                    required
+                    sx={inputStyle}
+                />
 
-                <button type="submit">Doğrula</button>
+                {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
+
+                <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    sx={{
+                        mt: 3,
+                        py: 1.2,
+                        fontWeight: 'bold',
+                        bgcolor: "#10b981", // Yeşil tonu
+                        ":hover": { bgcolor: "#059669" }
+                    }}
+                >
+                    Doğrula
+                </Button>
             </form>
-        </div>
+        </Paper>
     )
 }
 
-export default Verify
+export default Verify;

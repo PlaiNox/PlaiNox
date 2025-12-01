@@ -7,8 +7,8 @@ function RegisterPage(){
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            height: '100vh',
-            backgroundColor: '#f0f2f5'
+            minHeight: '80vh', // Sayfayı dikeyde ortalar
+            // backgroundColor sildik, arkadaki yıldızlar görünecek
         }}>
             <Register />
         </div>

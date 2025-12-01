@@ -17,22 +17,34 @@ function Header(){
     const dispatch = useDispatch();
     const[theme, setTheme] = useState(false);
 
+    // const changeTheme = () => {
+    //     const root = document.getElementById("root");
+    //     const body = document.body;
+    //     if(theme){
+    //         root.style.backgroundColor="black";
+    //         root.style.color = "#fff";
+    //         body.style.backgroundColor = "black";
+    //         body.style.color = "#fff";
+    //     } else {
+    //         root.style.backgroundColor = "#fff";
+    //         root.style.color= "black";
+    //         body.style.backgroundColor = "#fff";
+    //         body.style.color = "black";
+    //     }
+    //     setTheme(!theme);
+    // }
     const changeTheme = () => {
-        const root = document.getElementById("root");
         const body = document.body;
-        if(theme){
-            root.style.backgroundColor="black";
-            root.style.color = "#fff";
-            body.style.backgroundColor = "black";
-            body.style.color = "#fff";
+
+        if (theme) {
+            body.classList.add("dark-theme");
+            body.classList.remove("light-theme");
         } else {
-            root.style.backgroundColor = "#fff";
-            root.style.color= "black";
-            body.style.backgroundColor = "#fff";
-            body.style.color = "black";
+            body.classList.add("light-theme");
+            body.classList.remove("dark-theme");
         }
         setTheme(!theme);
-    }
+    };
 
 
     const handleProfileClick = () => {
@@ -52,8 +64,8 @@ function Header(){
         <div style={{display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
             {/* Logo Alanı */}
             <div className='flex-row' onClick={() => navigate("/")} style={{cursor: 'pointer'}}>
-                {/* SRC kısmını güncelledik */}
-                <img className="logo" src={logo} alt="logo" />
+                {/* SRC kısmını güncelledik
+                <img className="logo" src={logo} alt="logo" /> */}
                 <p className="logo-text">PLAINOX</p>
             </div>
 

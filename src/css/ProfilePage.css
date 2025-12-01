@@ -2,97 +2,99 @@
 .profile-container {
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* Yukarıya daha yakın dursun */
+    align-items: flex-start;
     padding-top: 60px;
     min-height: 80vh;
-    background-color: #f8f9fa; /* Hafif gri arka plan */
+    /* background-color sildik, şeffaf olsun */
 }
 
-/* Profil Kartı */
+/* Profil Kartı - Glassmorphism */
 .profile-card {
-    background-color: #ffffff;
+    background: rgba(30, 41, 59, 0.7); /* Koyu şeffaf */
+    backdrop-filter: blur(12px);
     width: 100%;
-    max-width: 400px; /* Çok geniş olmasın */
+    max-width: 450px;
     padding: 40px;
-    border-radius: 15px; /* Köşeleri yuvarlat */
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); /* Modern gölge */
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
     text-align: center;
-    transition: transform 0.3s ease;
-}
-
-.profile-card:hover {
-    transform: translateY(-5px); /* Üzerine gelince hafif yukarı kalksın */
+    color: white; /* Yazı rengi beyaz */
 }
 
 /* Profil Resmi */
 .profile-avatar {
     width: 120px;
     height: 120px;
-    border-radius: 50%; /* Tam yuvarlak */
+    border-radius: 50%;
     object-fit: cover;
-    border: 4px solid #e9ecef; /* Etrafına çember */
+    border: 4px solid rgba(255, 255, 255, 0.1); /* Çemberi yumuşattık */
     margin-bottom: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 
 /* Başlık */
 .profile-title {
-    font-size: 24px;
+    font-size: 26px;
     font-weight: bold;
-    color: #333;
+    color: #fff;
     margin-bottom: 5px;
 }
 
 .profile-subtitle {
     font-size: 14px;
-    color: #777;
+    color: #94a3b8; /* Açık gri */
     margin-bottom: 30px;
 }
 
 /* Bilgi Kutusu */
 .profile-info-box {
     text-align: left;
-    background-color: #f1f3f5;
+    background-color: rgba(0, 0, 0, 0.2); /* Daha koyu iç kutu */
     padding: 20px;
-    border-radius: 10px;
+    border-radius: 12px;
     margin-bottom: 25px;
+    border: 1px solid rgba(255,255,255,0.05);
 }
 
 .info-row {
     display: flex;
     justify-content: space-between;
-    padding: 10px 0;
-    border-bottom: 1px solid #dee2e6;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1); /* Çizgileri incelttik */
     font-size: 15px;
 }
 
 .info-row:last-child {
-    border-bottom: none; /* Son çizgi olmasın */
+    border-bottom: none;
 }
 
 .info-label {
     font-weight: 600;
-    color: #555;
+    color: #cbd5e1; /* Etiket rengi */
 }
 
 .info-value {
-    color: #333;
+    color: #fff; /* Değer rengi */
     font-weight: 500;
 }
 
 /* Çıkış Butonu */
 .logout-btn {
     width: 100%;
-    padding: 12px;
-    background-color: #ff4757;
+    padding: 14px;
+    background: linear-gradient(45deg, #ef4444, #dc2626); /* Kırmızı gradyan */
     color: white;
     font-size: 16px;
     font-weight: bold;
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
 }
 
 .logout-btn:hover {
-    background-color: #ff6b81; /* Hover rengi */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5);
 }
