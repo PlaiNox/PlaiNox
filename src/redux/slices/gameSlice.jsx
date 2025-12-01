@@ -52,9 +52,11 @@ export const gameSlice = createSlice({
 
             .addCase(getFavoritesGame.fulfilled,(state, action)=>{
                 state.favoritesGame = action.payload;
+                state.games = action.payload;
             })
             .addCase(getOrderedGame.fulfilled, (state, action)=>{
                 state.orderedGame = action.payload;
+                state.games = action.payload;
             })
     }
 })

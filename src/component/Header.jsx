@@ -7,7 +7,7 @@ import { FaMoon } from "react-icons/fa";
 import { FaUser } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux';
-import { setSearchQuery } from '../redux/slices/gameSlice';
+import {getAllGame, getFavoritesGame, getOrderedGame, setSearchQuery} from '../redux/slices/gameSlice';
 import logo from '../image/steam-seeklogo.png';
 import { FaBook } from "react-icons/fa";
 
@@ -46,6 +46,23 @@ function Header(){
         setTheme(!theme);
     };
 
+    // logoya basınca tüm oyunları getir.
+    const handleLogoClick = () => {
+        dispatch(getAllGame());
+        navigate("/");
+    }
+
+    // en çok sipariş edileneleri getir
+    const handleShowOrdered = () =>{
+        dispatch(getOrderedGame());
+        navigate("/");
+    }
+
+    //en popüler oyunları getir
+    const handleShowFavorites = () => {
+        dispatch(getFavoritesGame());
+        navigate("/");
+    }
 
     const handleProfileClick = () => {
         const token = localStorage.getItem("token");
@@ -63,10 +80,13 @@ function Header(){
     return(
         <div style={{display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
             {/* Logo Alanı */}
-            <div className='flex-row' onClick={() => navigate("/")} style={{cursor: 'pointer'}}>
-                {/* SRC kısmını güncelledik
-                <img className="logo" src={logo} alt="logo" /> */}
+            <div className='flex-row' onClick={handleLogoClick} style={{cursor: 'pointer'}}>
+                <img className="logo" src="./src/image/steam-seeklogo.png" alt="logo" />
                 <p className="logo-text">PLAINOX</p>
+            </div>
+            <div className='nav-links'>
+                <button className='nav-btn' onClick={handleShowOrdered}>En Çok Satanlar</button>
+                <button className='nav-btn' onClick={handleShowFavorites}>En Popüler</button>
             </div>
 
             {/* İkonlar Alanı */}

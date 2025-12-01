@@ -24,3 +24,29 @@
 .icon:hover{
     cursor: pointer;
 }
+
+/* Butonların Tasarımı */
+.nav-btn {
+    background-color: transparent;
+    border: none;
+    color: inherit; /* Teman neyse (siyah/beyaz) ona uyar */
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    position: relative;
+    padding: 5px 10px;
+    transition: color 0.3s;
+}
+
+/* Üzerine gelince altı çizili olsun veya renk değişsin */
+.nav-btn:hover {
+    color: #007bff; /* Mavi tonu (Steam mavisine yakın yapabilirsin) */
+    text-decoration: underline;
+}
+
+/* Mobil uyumluluk için (Ekran küçülürse butonlar sıkışmasın) */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none; /* Mobilde butonları gizle veya hamburger menüye al */
+    }
+}
