@@ -28,7 +28,6 @@ public class UserController {
     public ResponseEntity<UserDto> authenticatedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = (User) authentication.getPrincipal();
-        //return ResponseEntity.ok(currentUser);
         UserDto userDto = UserDto.builder()
                 .id(currentUser.getId().longValue())
                 .username(currentUser.getRealUsername())
